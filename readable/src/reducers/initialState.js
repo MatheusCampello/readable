@@ -1,5 +1,7 @@
 export default {
-  caregories: [],
+  categories: {
+    categories: [],
+  },
   posts: [],
   comments: [],
 };

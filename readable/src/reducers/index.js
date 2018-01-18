@@ -4,9 +4,9 @@ import comments from './commentsReducer';
 import posts from './postsReducer';
 
 const rootReducer = combineReducers({
-  alarms,
-  attendance,
-  attendants,
+  categories,
+  comments,
+  posts,
 });
 
 export default rootReducer;
