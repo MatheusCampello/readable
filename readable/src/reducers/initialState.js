@@ -3,5 +3,7 @@ export default {
     categories: [],
   },
   posts: [],
+  postDetails: {},
   comments: [],
+  commentDetails: {},
 };
