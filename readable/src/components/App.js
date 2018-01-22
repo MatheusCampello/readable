@@ -6,6 +6,7 @@ import axios from 'axios';
 import CategoryList from './categories/CategoryList';
 import CategoryPosts from './categories/CategoryPosts';
 import PostDetail from './posts/PostDetail';
+import PostCreate from './posts/PostCreate';
 import './App.css';
 
 import * as categoriesActions from './../actions/categoriesActions';
@@ -46,8 +47,8 @@ class App extends Component {
             <PostDetail />
           )}/>
         ))}
-      <Route exact path={'/post/:id/edit/'} render={() => (
-        <div> placeholder </div>
+      <Route exact path={'/post/create'} render={() => (
+        <PostCreate categoriesList={categoriesList}/>
       )}/>
       </div>
     );

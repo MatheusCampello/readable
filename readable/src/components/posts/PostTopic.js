@@ -14,7 +14,10 @@ const PostTopic = ({ post, category, postDetails }) => (
         Comments: {post.commentCount}  - Vote Score: {post.voteScore} - Author: {post.author}
       </Link>
     ) : (
-      <div> Comments: {post.commentCount}  - Vote Score: {post.voteScore} - Author: {post.author} </div>
+      <div>
+        <div> {post.body} </div>
+        <div> Comments: {post.commentCount}  - Vote Score: {post.voteScore} - Author: {post.author} </div>
+      </div>
     )}
   </div>
 );

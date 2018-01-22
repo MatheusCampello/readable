@@ -52,3 +52,19 @@ export function loadPostDetails(post) {
       }),
   );
 }
+
+
+export function createPost(post) {
+  return (dispatch, getState, { axios }) => new Promise((resolve, reject) =>
+    axios({
+      method: 'post',
+      url: `http://localhost:3001/posts`,
+      data: post,
+      headers: { Authorization: 'whatever-you-want' },
+    })
+      .then(res => resolve(dispatch(loadPosts(res.data))))
+      .catch((error) => {
+        console.log(error);
+      }),
+  );
+}

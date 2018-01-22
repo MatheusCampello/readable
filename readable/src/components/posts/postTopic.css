@@ -2,4 +2,6 @@
   border: 2px solid black;
   float: left;
   position: relative;
+  margin-top: 10px;
+  margin-left: 10px;
 }

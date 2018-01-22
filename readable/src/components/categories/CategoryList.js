@@ -14,6 +14,7 @@ const CategoryList = ({ categoriesList }) => (
         ))}
       </ul>
     </div>
+    <h4> <Link to={{ pathname:'/post/create', state: { categoriesList: categoriesList}}}> Post </Link>  </h4>
   </div>
 );
 

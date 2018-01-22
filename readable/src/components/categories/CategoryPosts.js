@@ -35,7 +35,9 @@ export class CategoryPosts extends React.Component {
       <div>
         <h1>Category: {this.props.category}</h1>
         {posts && posts.posts.map(post => (
-          <PostTopic key={post.id} post={post} category={this.props.category} />
+          <div key={post.id} style={{'width': '100%', 'float': 'left'}}>
+            <PostTopic post={post} category={this.props.category} />
+          </div>
         ))}
       </div>
     );
