@@ -38,7 +38,7 @@ class App extends Component {
         }
         {categoriesList.categories.map(category => (
           <Route exact path={`/${category.name}`} key={category.name} render={() => (
-            <CategoryPosts category={category.name}/>
+            <CategoryPosts category={category.name} />
           )}/>
         ))}
         {categoriesList.categories.map(category => (
@@ -46,11 +46,9 @@ class App extends Component {
             <PostDetail />
           )}/>
         ))}
-        {categoriesList.categories.map(category => (
-          <Route exact path={`/${category.name}/post/:id/comments/`} key={category.name} render={() => (
-            <PostDetail />
-          )}/>
-        ))}
+      <Route exact path={'/post/:id/edit/'} render={() => (
+        <div> placeholder </div>
+      )}/>
       </div>
     );
   }

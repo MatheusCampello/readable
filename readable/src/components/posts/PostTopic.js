@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import './postTopic.css';
+
 const PostTopic = ({ post, category, postDetails }) => (
   <div key={post.id} className='border'>
     <div>

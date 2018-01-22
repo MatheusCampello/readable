@@ -15,7 +15,6 @@ export class PostDetail extends React.Component {
     super(props);
     this.state = {
       post: {},
-      comments: [],
     };
   }
 
