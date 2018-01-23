@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import * as postsActions from './../../actions/postsActions';
+import * as commentsActions from './../../actions/commentsActions';
 
-class PostCreate extends Component{
+class CommentCreate extends Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -15,28 +15,29 @@ class PostCreate extends Component{
       author: "",
       category: "",
       categoriesList: [],
+      post: {},
     }
     this.handleStateChange = this.handleStateChange.bind(this);
-    this.savePost = this.savePost.bind(this);
-    this.setAndSavePost = this.setAndSavePost.bind(this);
+    this.saveComment = this.savePost.bind(this);
+    this.setAndSaveComment = this.setAndSavePost.bind(this);
     this.createUUiD = this.createUUiD.bind(this);
   }
 
   componentWillMount() {
-    const categoriesList = this.props.categoriesList
+    const post = this.props.postsList.find(post => post.id === this.props.match.params.id)
     this.setState({
-      categoriesList
+      post
+    })
+  }
+
+  componentWillReceiveProps({categoriesList}, nextContext) {
+    this.setState({
+      post: this.props.postsList.find(post => post.id === this.props.match.params.id)
     })
   }
 
   handleStateChange(event) {
     this.setState({ category: event.target.value })
-  }
-
-  componentWillReceiveProps({categoriesList}, nextContext) {
-    this.setState({
-      categoriesList: categoriesList
-    })
   }
 
   createUUiD() {
@@ -110,24 +111,8 @@ class PostCreate extends Component{
                 />
           </div>
         </div>
-        <div className="splitCreateTenant">
-          <div className="itemCreateTenant">
-               <label className="labelCreateTenant">Category</label>
-           </div>
-           <div className="itemCreateTenant">
-            <div className="selectCreateTenant state">
-                <select onChange={this.handleStateChange} name="state" id="">
-                    <option selected disabled> -SELECT A CATEGORY- </option>
-                    {categoriesList.categories.map(category => (
-                      <option key={category.name} value={category.name}> {category.name} </option>
-                    ))}
-                </select>
-              </div>
-            <label className="errorCreateTenant">{this.state.stateHasError? 'Preenchimento obrigatório' : ''}</label>
-          </div>
-        </div>
         <div className="">
-          <button className="addButton"  onClick={() => this.setAndSavePost() }>Save</button>
+          <button className="addButton"  onClick={() => this.setAndSaveComment() }>Save</button>
         </div>
       </div>
     );
@@ -142,8 +127,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    createPost: (post) => dispatch(postsActions.createPost(post)),
+    createComment: (post) => dispatch(commentsActions.createComment(post)),
   };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostCreate));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CommentCreate));

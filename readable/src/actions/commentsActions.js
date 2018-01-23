@@ -17,3 +17,21 @@ export function loadComments(post) {
       }),
   );
 }
+
+export function createComment(comment) {
+  return (dispatch, getState, { axios }) => new Promise((resolve, reject) =>
+    axios({
+      method: 'post',
+      url: `http://localhost:3001/comments`,
+      data: comment,
+      headers: { Authorization: 'whatever-you-want' },
+    })
+      .then(res => {
+        console.log(res)
+        // resolve(dispatch(loadComments(res.data.post))))
+      }
+      .catch((error) => {
+        console.log(error);
+      }),
+  );
+}

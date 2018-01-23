@@ -7,6 +7,7 @@ import CategoryList from './categories/CategoryList';
 import CategoryPosts from './categories/CategoryPosts';
 import PostDetail from './posts/PostDetail';
 import PostCreate from './posts/PostCreate';
+import CommentCreate from './comments/CommentCreate';
 import './App.css';
 
 import * as categoriesActions from './../actions/categoriesActions';
@@ -30,6 +31,7 @@ class App extends Component {
 
   render() {
     const categoriesList = this.props.categories;
+    const postsList = this.props.posts;
     return (
       <div className="App">
         {categoriesList.categories &&
@@ -49,6 +51,9 @@ class App extends Component {
         ))}
       <Route exact path={'/post/create'} render={() => (
         <PostCreate categoriesList={categoriesList}/>
+      )}/>
+      <Route exact path={'/post/:id/comment/create'} render={() => (
+        <CommentCreate postsList={postsList}/>
       )}/>
       </div>
     );
