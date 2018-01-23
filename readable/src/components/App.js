@@ -16,13 +16,20 @@ import * as postsActions from './../actions/postsActions';
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      posts: [],
+    };
 
     this.loadCategoryPost
   }
 
   componentWillMount() {
     this.props.loadCategories();
-    this.props.loadPosts();
+    this.props.loadPosts().then(() => {
+      this.setState({
+        posts: this.props.posts
+      });
+    });
   }
 
   loadCategoryPosts(category) {
@@ -31,12 +38,13 @@ class App extends Component {
 
   render() {
     const categoriesList = this.props.categories;
-    const postsList = this.props.posts;
+    const { posts } = this.state;
+    // console.log(this.props.posts)
     return (
       <div className="App">
         {categoriesList.categories &&
           <Route exact path="/" render={() => (
-            <CategoryList categoriesList={categoriesList}/>
+            <CategoryList categoriesList={categoriesList} posts={posts}/>
           )}/>
         }
         {categoriesList.categories.map(category => (
@@ -53,7 +61,7 @@ class App extends Component {
         <PostCreate categoriesList={categoriesList}/>
       )}/>
       <Route exact path={'/post/:id/comment/create'} render={() => (
-        <CommentCreate postsList={postsList}/>
+        <CommentCreate />
       )}/>
       </div>
     );

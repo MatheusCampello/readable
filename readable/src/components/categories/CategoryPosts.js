@@ -39,6 +39,7 @@ export class CategoryPosts extends React.Component {
             <PostTopic post={post} category={this.props.category} />
           </div>
         ))}
+        <h4> <Link to={{ pathname:'/post/create'}}> Post </Link>  </h4>
       </div>
     );
   }

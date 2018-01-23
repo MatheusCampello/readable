@@ -15,6 +15,7 @@ export class PostDetail extends React.Component {
     super(props);
     this.state = {
       post: {},
+      comments: []
     };
   }
 
@@ -24,24 +25,28 @@ export class PostDetail extends React.Component {
       url: `http://localhost:3001/posts/${this.props.match.params.id}`,
       headers: { Authorization: 'whatever-you-want' },
     }).then(res => {
-      this.props.loadComments(res.data.id);
+      this.props.loadComments(res.data.id).then((res) => {
+        this.setState({ comments: res.comments.sort((commA, commB) => commA.voteScore < commB.voteScore) });
+      });
       this.setState({ post: res.data });
     })
   }
 
   render() {
-    const { post } = this.state;
+    console.log(this.state.comments)
+    const { post, comments } = this.state;
     const commentStyle = {
       float: 'left',
       position: 'relative',
       width: '100%',
       textAlign: 'left'
     }
-    const comments = this.props.comments;
+    // const comments = this.props.comments;
     return (
       <div>
         <PostTopic post={post} category={post.category} postDetails={true}/>
 
+        <h4> <Link to={{ pathname: `/post/${post.id}/comment/create`, }}> Comment </Link>  </h4>
         <h2 style={commentStyle}> Comments </h2>
         {comments.length > 0 ? comments.map((comment) => (
           <div key={comment.id} className='comment'>
@@ -54,9 +59,7 @@ export class PostDetail extends React.Component {
           </div>
         )) : (
           <div className='comment'> No comments yet </div>
-        )
-
-        }
+        )}
       </div>
     );
   }

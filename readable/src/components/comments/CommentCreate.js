@@ -10,34 +10,30 @@ class CommentCreate extends Component{
     this.state = {
       id: "",
       timestamp: "",
-      title: "",
       body: "",
       author: "",
-      category: "",
-      categoriesList: [],
       post: {},
     }
-    this.handleStateChange = this.handleStateChange.bind(this);
     this.saveComment = this.savePost.bind(this);
     this.setAndSaveComment = this.setAndSavePost.bind(this);
     this.createUUiD = this.createUUiD.bind(this);
   }
 
   componentWillMount() {
-    const post = this.props.postsList.find(post => post.id === this.props.match.params.id)
-    this.setState({
-      post
-    })
+    if(Array.isArray(this.props.posts)) {
+      const post = this.props.posts.find(post => post.id === this.props.match.params.id)
+      this.setState({
+        post
+      });
+    }
   }
 
-  componentWillReceiveProps({categoriesList}, nextContext) {
-    this.setState({
-      post: this.props.postsList.find(post => post.id === this.props.match.params.id)
-    })
-  }
-
-  handleStateChange(event) {
-    this.setState({ category: event.target.value })
+  componentWillReceiveProps(nextProps, nextContext) {
+    if(Array.isArray(nextProps.posts)) {
+      this.setState({
+        post: nextProps.posts.find(post => post.id === this.props.match.params.id)
+      })
+    }
   }
 
   createUUiD() {
@@ -47,44 +43,30 @@ class CommentCreate extends Component{
     });
   }
 
-  savePost(post) {
-    this.props.createPost(post).then(() => {
-      this.props.history.push(`/${this.state.category}`)
+  savePost(comment) {
+    this.props.createComment(comment).then(() => {
+      this.props.history.push(`/${this.state.post.category}/post/${this.state.post.id}/`)
     });
   }
 
   setAndSavePost() {
     const id = this.createUUiD();
     const timestamp = Date.now();
-    const { title, body, author, category }  = this.state;
-    const post = Object.assign({}, {
+    const parentId = this.state.post.id
+    const { body, author }  = this.state;
+    const comment = Object.assign({}, {
       id,
       timestamp,
-      title,
       body,
       author,
-      category
+      parentId
     });
-    this.savePost(post);
+    this.savePost(comment);
   }
 
   render() {
-    const { categoriesList } = this.state
     return (
       <div>
-        <div className="">
-          <div className="">
-            <label className="">Title</label>
-          </div>
-          <div className="">
-            <input onChange={(event) => { this.setState({ title: event.target.value }); } }
-                name="title"
-                className=""
-                type="text"
-                value={this.state.title}
-                />
-          </div>
-        </div>
         <div className="">
           <div className="">
             <label className="">Body</label>

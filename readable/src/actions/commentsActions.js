@@ -26,10 +26,7 @@ export function createComment(comment) {
       data: comment,
       headers: { Authorization: 'whatever-you-want' },
     })
-      .then(res => {
-        console.log(res)
-        // resolve(dispatch(loadComments(res.data.post))))
-      }
+      .then(res => resolve(dispatch(loadComments(res.data.parentId))))
       .catch((error) => {
         console.log(error);
       }),
