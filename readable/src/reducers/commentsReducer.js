@@ -18,6 +18,10 @@ export default function commentsReducer(state = initialState.comments, action) {
       return state.map(comment => comment.id ===actionComment.id ?
           { ...comment, deleted: actionComment.deleted } :
         comment);
+    case types.EDIT_COMMENT_SUCCESS:
+      return state.map(comment => comment.id === action.comment.id ?
+          action.comment :
+        comment);
     default:
       return state
   }

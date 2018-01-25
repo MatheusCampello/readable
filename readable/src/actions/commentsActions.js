@@ -16,6 +16,10 @@ export function deleteCommentSuccess(comment) {
   return { type: types.DELETE_COMMENT_SUCCESS, comment};
 }
 
+export function editCommentSuccess(comment) {
+  return { type: types.EDIT_COMMENT_SUCCESS, comment};
+}
+
 export function loadComments(post) {
   return (dispatch, getState, { axios }) => new Promise((resolve, reject) =>
     axios({
@@ -73,6 +77,23 @@ export function deleteComment(comment) {
     })
       .then(res => {
         resolve(dispatch(deleteCommentSuccess(res.data)))
+      })
+      .catch((error) => {
+        console.log(error);
+      }),
+  );
+}
+
+export function editComment(comment, data) {
+  return (dispatch, getState, { axios }) => new Promise((resolve, reject) =>
+    axios({
+      method: 'put',
+      url: `http://localhost:3001/comments/${comment}`,
+      data,
+      headers: { Authorization: 'whatever-you-want' },
+    })
+      .then(res => {
+        resolve(dispatch(editCommentSuccess(res.data)))
       })
       .catch((error) => {
         console.log(error);

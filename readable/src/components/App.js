@@ -8,6 +8,7 @@ import CategoryPosts from './categories/CategoryPosts';
 import PostDetail from './posts/PostDetail';
 import PostCreate from './posts/PostCreate';
 import CommentCreate from './comments/CommentCreate';
+import CommentEdit from './comments/CommentEdit';
 import './App.css';
 
 import * as categoriesActions from './../actions/categoriesActions';
@@ -62,6 +63,9 @@ class App extends Component {
       )}/>
       <Route exact path={'/post/:id/comment/create'} render={() => (
         <CommentCreate />
+      )}/>
+      <Route exact path={'/post/:id/comment/:cid/edit'} render={() => (
+        <CommentEdit />
       )}/>
       </div>
     );
