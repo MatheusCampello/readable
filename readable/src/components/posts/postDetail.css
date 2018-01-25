@@ -5,3 +5,11 @@
   margin-top: 10px;
   text-align: left;
 }
+
+.button {
+   cursor: pointer;
+   width: fit-content;
+   color: blue;
+   float: right;
+   margin-right: 10px;
+}

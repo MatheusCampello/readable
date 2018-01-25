@@ -20,6 +20,7 @@ export class PostDetail extends React.Component {
   }
 
   componentWillMount() {
+    console.log("WillMount",this.props.posts)
     axios({
       method: 'get',
       url: `http://localhost:3001/posts/${this.props.match.params.id}`,
@@ -28,18 +29,32 @@ export class PostDetail extends React.Component {
       this.props.loadComments(res.data.id).then((res) => {
         this.setState({ comments: res.comments.sort((commA, commB) => commA.voteScore < commB.voteScore) });
       });
-      this.setState({ post: res.data });
     })
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log("WillReceive", nextProps.posts)
+    this.setState({
+      post: nextProps.posts.find(post => post.id === this.props.match.params.id)
+    })
+  }
+
+  scoreComment(comment, option) {
+    const data = { option: option}
+    this.props.scoreComment(comment, data);
+  }
+
+  deleteComment(comment) {
+    this.props.deleteComment(comment);
+  }
+
   render() {
-    console.log(this.state.comments)
-    const { post, comments } = this.state;
+    const { post } = this.state;
     const commentStyle = {
       float: 'left',
       position: 'relative',
       width: '100%',
-      textAlign: 'left'
+      textAlign: 'left',
     }
     // const comments = this.props.comments;
     return (
@@ -48,14 +63,17 @@ export class PostDetail extends React.Component {
 
         <h4> <Link to={{ pathname: `/post/${post.id}/comment/create`, }}> Comment </Link>  </h4>
         <h2 style={commentStyle}> Comments </h2>
-        {comments.length > 0 ? comments.map((comment) => (
-          <div key={comment.id} className='comment'>
+        {this.props.comments.length > 0 ? this.props.comments.filter(comment => comment.deleted === false).map((comment) => (
+          <div key={comment.id} style={{border: '2px solid black', width: '50%'}}className='comment'>
             <div>
               {comment.body}
             </div>
             <div>
               Vote Score: {comment.voteScore} - Author {comment.author}
             </div>
+            <div className="button" onClick={() => this.scoreComment(comment.id, 'upVote') }>UpVote</div>
+            <div className="button" onClick={() => this.scoreComment(comment.id, 'downVote') }>DownVote</div>
+            <div className="button" onClick={() => this.deleteComment(comment.id) }>Delete</div>
           </div>
         )) : (
           <div className='comment'> No comments yet </div>
@@ -79,6 +97,8 @@ function mapDispatchToProps(dispatch) {
   return {
     loadPosts: () => dispatch(postsActions.loadPosts()),
     loadComments: (post) => dispatch(commentsActions.loadComments(post)),
+    scoreComment: (comment, data) => dispatch(commentsActions.scoreComment(comment, data)),
+    deleteComment: (comment) => dispatch(commentsActions.deleteComment(comment)),
   };
 }
 
