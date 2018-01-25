@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import PostTopic from './../posts/PostTopic';
@@ -50,30 +50,28 @@ export class PostDetail extends React.Component {
 
   render() {
     const { post } = this.state;
-    const commentStyle = {
-      float: 'left',
-      position: 'relative',
-      width: '100%',
-      textAlign: 'left',
-    }
-    // const comments = this.props.comments;
+
     return (
       <div>
+        <h4> <Link to={{ pathname: `/${post.category}`, }}> Readable: {post.category} </Link>  </h4>
         <PostTopic post={post} category={post.category} postDetails={true}/>
 
-        <h4> <Link to={{ pathname: `/post/${post.id}/comment/create`, }}> Comment </Link>  </h4>
-        <h2 style={commentStyle}> Comments </h2>
+        <h2 className='commentTitle'> Comments </h2>
+        <Link className='commentLink' to={{ pathname: `/post/${post.id}/comment/create`, }}> Comment </Link>
+
+
         {this.props.comments.length > 0 ? this.props.comments.filter(comment => comment.deleted === false).map((comment) => (
           <div key={comment.id} style={{border: '2px solid black', width: '50%'}}className='comment'>
             <div>
               {comment.body}
             </div>
             <div>
-              Vote Score: {comment.voteScore} - Author {comment.author}
+              Vote Score: {comment.voteScore} - Author: {comment.author}
             </div>
             <div className="button" onClick={() => this.scoreComment(comment.id, 'upVote') }>UpVote</div>
             <div className="button" onClick={() => this.scoreComment(comment.id, 'downVote') }>DownVote</div>
             <div className="button" onClick={() => this.deleteComment(comment.id) }>Delete</div>
+            <Link to={{ pathname: `/post/${post.id}/comment/${comment.id}/edit`, }}> Edit </Link>
           </div>
         )) : (
           <div className='comment'> No comments yet </div>
@@ -84,6 +82,7 @@ export class PostDetail extends React.Component {
 }
 
 PostDetail.propTypes = {
+  scorePost: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {

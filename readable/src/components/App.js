@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, withRouter } from 'react-router-dom';
-import logo from './logo.svg';
-import axios from 'axios';
 import CategoryList from './categories/CategoryList';
 import CategoryPosts from './categories/CategoryPosts';
 import PostDetail from './posts/PostDetail';
@@ -20,42 +18,41 @@ class App extends Component {
     this.state = {
       posts: [],
     };
-
-    this.loadCategoryPost
+    this.scorePost = this.scorePost.bind(this);
   }
 
   componentWillMount() {
     this.props.loadCategories();
-    this.props.loadPosts().then(() => {
-      this.setState({
-        posts: this.props.posts
-      });
-    });
+    this.props.loadPosts()
   }
 
   loadCategoryPosts(category) {
     this.props.loadCategoryPosts(category);
   }
 
+  scorePost(post, option) {
+    const data = {option: option}
+    this.props.scorePost(post, data);
+  }
+
   render() {
     const categoriesList = this.props.categories;
-    const { posts } = this.state;
     // console.log(this.props.posts)
     return (
       <div className="App">
         {categoriesList.categories &&
           <Route exact path="/" render={() => (
-            <CategoryList categoriesList={categoriesList} posts={posts}/>
+            <CategoryList categoriesList={categoriesList} posts={this.props.posts} scorePost={this.scorePost}/>
           )}/>
         }
         {categoriesList.categories.map(category => (
           <Route exact path={`/${category.name}`} key={category.name} render={() => (
-            <CategoryPosts category={category.name} />
+            <CategoryPosts category={category.name} scorePost={this.scorePost} />
           )}/>
         ))}
         {categoriesList.categories.map(category => (
           <Route exact path={`/${category.name}/post/:id`} key={category.name} render={() => (
-            <PostDetail />
+            <PostDetail scorePost={this.scorePost}/>
           )}/>
         ))}
       <Route exact path={'/post/create'} render={() => (
@@ -84,6 +81,7 @@ function mapDispatchToProps(dispatch) {
     loadCategories: () => dispatch(categoriesActions.loadCategories()),
     loadPosts: () => dispatch(postsActions.loadPosts()),
     loadCategoryPosts: (category) => dispatch(postsActions.loadCategoryPosts(category)),
+    scorePost: (post, option) => dispatch(postsActions.scorePost(post, option)),
   };
 }
 

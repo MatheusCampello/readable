@@ -11,7 +11,7 @@ export default function commentsReducer(state = initialState.comments, action) {
       return [...state, comment];
     case types.SCORE_COMMENT_SUCCESS:
       return state.map(comment => comment.id === action.comment.id ?
-          { ...comment, voteScore: actionComment.voteScore } :
+          { ...comment, voteScore: action.comment.voteScore } :
         comment);
     case types.DELETE_COMMENT_SUCCESS:
       const actionComment = action.comment;

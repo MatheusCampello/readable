@@ -5,3 +5,10 @@
   margin-top: 10px;
   margin-left: 10px;
 }
+
+.button {
+   cursor: pointer;
+   color: blue;
+   float: right;
+   margin-right: 10px;
+}

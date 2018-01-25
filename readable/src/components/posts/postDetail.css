@@ -1,9 +1,25 @@
+.commentTitle {
+  float: left;
+  position: relative;
+  width: 100%;
+  margin-left: 10px;
+  text-align: left;
+}
+
 .comment {
   position: relative;
   width: 100%;
   float: left;
   margin-top: 10px;
+  margin-left: 10px;
   text-align: left;
+}
+
+.commentLink {
+  position: relative;
+  width: 100%;
+  right: 56%;
+  top: 115px;
 }
 
 .button {
@@ -12,4 +28,12 @@
    color: blue;
    float: right;
    margin-right: 10px;
+}
+
+.edit {
+  cursor: pointer;
+  width: fit-content;
+  color: blue;
+  float: left;
+  margin-right: 10px;
 }

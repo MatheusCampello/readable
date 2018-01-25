@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 
 import * as commentsActions from './../../actions/commentsActions';
 
@@ -14,19 +15,18 @@ class CommentEdit extends Component{
       author: "",
       post: {},
     }
-    this.saveComment = this.savePost.bind(this);
-    this.setAndSaveComment = this.setAndSavePost.bind(this);
+    this.editComment = this.editComment.bind(this);
+    this.setAndEditComment = this.setAndEditComment.bind(this);
     this.createUUiD = this.createUUiD.bind(this);
   }
 
   componentWillMount() {
-    if(Array.isArray(this.props.posts)) {
-      const post = this.props.posts.find(post => post.id === this.props.match.params.id)
-      this.setState({
-        post
-      });
-    }
-    if(Array.isArray(this.props.comments)) {
+    const post = this.props.posts.find(post => post.id === this.props.match.params.id)
+    this.setState({
+      post
+    });
+    console.log(this.props.posts)
+    if (this.props.comments.length > 0) {
       const comment = this.props.comments.find(comment => comment.id === this.props.match.params.cid)
       this.setState({
         id: comment.id,
@@ -34,25 +34,28 @@ class CommentEdit extends Component{
         body: comment.body,
         author: comment.author
       });
+    } else {
+      // Since the comment isn't loaded in the App.js but on the post page, I need to get the post, so... No redux here
+      axios({
+        method: 'get',
+        url: `http://localhost:3001/comments/${this.props.match.params.cid}`,
+        headers: { Authorization: 'whatever-you-want' },
+      }).then(res => {
+        this.setState({
+          id: res.data.id,
+          timestamp: res.data.timestamp,
+          body: res.data.body,
+          author: res.data.author
+        });
+      })
     }
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    if(Array.isArray(nextProps.posts)) {
-      this.setState({
-        post: nextProps.posts.find(post => post.id === this.props.match.params.id)
-      })
-    }
-
-    if(Array.isArray(nextProps.comments)) {
-      const comment = nextProps.comments.find(comment => comment.id === nextProps.match.params.cid)
-      this.setState({
-        id: comment.id,
-        timestamp: comment.timestamp,
-        body: comment.body,
-        author: comment.author
-      });
-    }
+    console.log(nextProps)
+    this.setState({
+      post: nextProps.posts.find(post => post.id === this.props.match.params.id)
+    })
   }
 
   createUUiD() {
@@ -62,13 +65,13 @@ class CommentEdit extends Component{
     });
   }
 
-  editPost(commentId, data) {
+  editComment(commentId, data) {
     this.props.editComment(commentId, data).then(() => {
       this.props.history.push(`/${this.state.post.category}/post/${this.state.post.id}/`)
     });
   }
 
-  setAndEditPost() {
+  setAndEditComment() {
     const timestamp = Date.now();
     const parentId = this.state.post.id
     const { id, body, author }  = this.state;
@@ -77,7 +80,7 @@ class CommentEdit extends Component{
       body,
       author
     });
-    this.editPost(id, data);
+    this.editComment(id, data);
   }
 
   render() {
@@ -120,6 +123,7 @@ class CommentEdit extends Component{
 function mapStateToProps(state, ownProps) {
   return {
     posts: state.posts,
+    comments: state.comments
   };
 }
 

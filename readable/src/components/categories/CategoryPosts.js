@@ -18,15 +18,8 @@ export class CategoryPosts extends React.Component {
 
   componentWillMount() {
     const posts = this.props.posts;
-    if (Array.isArray(posts) && posts.filter(post => post.category === this.props.category).length > 0) {
-      this.setState({ posts: posts.filter(post => post.category === this.props.category) });
-    } else {
-      this.props.loadCategoryPosts(this.props.category).then((res) => {
-        this.setState({ posts: res.posts });
-      }).catch((error) => {
-        console.log(error);
-      });
-    }
+    this.setState({ posts: posts.filter(post => post.category === this.props.category) });
+
   }
 
   render() {
