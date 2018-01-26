@@ -60,6 +60,8 @@ export class PostDetail extends React.Component {
     return (
       <div>
         <PostTopic post={post} category={post.category} postDetails={true}/>
+        <div className="categoryButton" onClick={() => this.props.scorePost(post.id, 'upVote') }>UpVote</div>
+        <div className="categoryButton" onClick={() => this.props.scorePost(post.id, 'downVote') }>DownVote</div>
 
         <h4> <Link to={{ pathname: `/post/${post.id}/comment/create`, }}> Comment </Link>  </h4>
         <h2 style={commentStyle}> Comments </h2>
@@ -84,6 +86,7 @@ export class PostDetail extends React.Component {
 }
 
 PostDetail.propTypes = {
+  scorePost: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {

@@ -21,7 +21,8 @@ class App extends Component {
       posts: [],
     };
 
-    this.loadCategoryPost
+    this.scorePost = this.scorePost.bind(this);
+    this.deletePost = this.deletePost.bind(this);
   }
 
   componentWillMount() {
@@ -37,6 +38,15 @@ class App extends Component {
     this.props.loadCategoryPosts(category);
   }
 
+  scorePost(postId, option) {
+    const data = { option: option};
+    this.props.scorePost(postId, data);
+  }
+
+  deletePost(postId) {
+    this.props.deletePost(postId);
+  }
+
   render() {
     const categoriesList = this.props.categories;
     const { posts } = this.state;
@@ -45,17 +55,17 @@ class App extends Component {
       <div className="App">
         {categoriesList.categories &&
           <Route exact path="/" render={() => (
-            <CategoryList categoriesList={categoriesList} posts={posts}/>
+            <CategoryList categoriesList={categoriesList} posts={this.props.posts} scorePost={this.scorePost} deletePost={this.deletePost}/>
           )}/>
         }
         {categoriesList.categories.map(category => (
           <Route exact path={`/${category.name}`} key={category.name} render={() => (
-            <CategoryPosts category={category.name} />
+            <CategoryPosts category={category.name} scorePost={this.scorePost} deletePost={this.deletePost}/>
           )}/>
         ))}
         {categoriesList.categories.map(category => (
           <Route exact path={`/${category.name}/post/:id`} key={category.name} render={() => (
-            <PostDetail />
+            <PostDetail scorePost={this.scorePost}/>
           )}/>
         ))}
       <Route exact path={'/post/create'} render={() => (
@@ -84,6 +94,8 @@ function mapDispatchToProps(dispatch) {
     loadCategories: () => dispatch(categoriesActions.loadCategories()),
     loadPosts: () => dispatch(postsActions.loadPosts()),
     loadCategoryPosts: (category) => dispatch(postsActions.loadCategoryPosts(category)),
+    scorePost: (postId, option) => dispatch(postsActions.scorePost(postId, option)),
+    deletePost: (postId) => dispatch(postsActions.deletePost(postId)),
   };
 }
 

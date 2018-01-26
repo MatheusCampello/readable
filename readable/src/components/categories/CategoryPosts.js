@@ -11,32 +11,20 @@ import './categoryPosts.css';
 export class CategoryPosts extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      posts: [],
-    };
-  }
-
-  componentWillMount() {
-    const posts = this.props.posts;
-    if (Array.isArray(posts) && posts.filter(post => post.category === this.props.category).length > 0) {
-      this.setState({ posts: posts.filter(post => post.category === this.props.category) });
-    } else {
-      this.props.loadCategoryPosts(this.props.category).then((res) => {
-        this.setState({ posts: res.posts });
-      }).catch((error) => {
-        console.log(error);
-      });
-    }
   }
 
   render() {
-    const posts = this.state;
+    const posts = this.props.posts.filter(post => post.category === this.props.category);
+    console.log(this.props.posts)
     return (
       <div>
         <h1>Category: {this.props.category}</h1>
-        {posts && posts.posts.map(post => (
+        {posts.length > 0 && posts.filter(post => post.deleted === false).map(post => (
           <div key={post.id} style={{'width': '100%', 'float': 'left'}}>
             <PostTopic post={post} category={this.props.category} />
+            <div className="categoryButton" onClick={() => this.props.scorePost(post.id, 'upVote') }>UpVote</div>
+            <div className="categoryButton" onClick={() => this.props.scorePost(post.id, 'downVote') }>DownVote</div>
+            <div className="categoryButton" onClick={() => this.props.deletePost(post.id) }>Delete</div>
           </div>
         ))}
         <h4> <Link to={{ pathname:'/post/create'}}> Post </Link>  </h4>
@@ -46,6 +34,8 @@ export class CategoryPosts extends React.Component {
 }
 
 CategoryPosts.propTypes = {
+  deletePost: PropTypes.func.isRequired,
+  scorePost: PropTypes.func.isRequired,
   category: PropTypes.string.isRequired,
 };
 

@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import PostTopic from './../posts/PostTopic';
 
-const CategoryList = ({ categoriesList, posts }) => (
+import './categoryList.css';
+
+const CategoryList = ({ categoriesList, posts, scorePost, deletePost }) => (
   <div className="list-books">
     <div className="category-select">
       Select a Category
@@ -16,15 +18,20 @@ const CategoryList = ({ categoriesList, posts }) => (
       </ul>
     </div>
     <h4> <Link to={{ pathname:'/post/create', state: { categoriesList: categoriesList}}}> Post </Link>  </h4>
-    {posts && posts.map(post => (
+    {posts && posts.filter(post => post.deleted === false).map(post => (
       <div key={post.id} style={{'width': '100%', 'float': 'left'}}>
         <PostTopic post={post} category={post.category} />
+        <div className="categoryButton" onClick={() => scorePost(post.id, 'upVote') }>UpVote</div>
+        <div className="categoryButton" onClick={() => scorePost(post.id, 'downVote') }>DownVote</div>
+        <div className="categoryButton" onClick={() => deletePost(post.id) }>Delete</div>
       </div>
     ))}
   </div>
 );
 
 CategoryList.propTypes = {
+  deletePost: PropTypes.func.isRequired,
+  scorePost: PropTypes.func.isRequired,
   categoriesList: PropTypes.shape({
       categories: PropTypes.array
   }).isRequired,
