@@ -55,6 +55,8 @@ export class PostDetail extends React.Component {
       <div>
         <h4> <Link to={{ pathname: `/${post.category}`, }}> Readable: {post.category} </Link>  </h4>
         <PostTopic post={post} category={post.category} postDetails={true}/>
+        <div className="categoryButton" onClick={() => this.props.scorePost(post.id, 'upVote') }>UpVote</div>
+        <div className="categoryButton" onClick={() => this.props.scorePost(post.id, 'downVote') }>DownVote</div>
 
         <h2 className='commentTitle'> Comments </h2>
         <Link className='commentLink' to={{ pathname: `/post/${post.id}/comment/create`, }}> Comment </Link>
