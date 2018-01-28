@@ -71,40 +71,40 @@ class PostCreate extends Component{
     const { categoriesList } = this.state
     return (
       <div>
-        <div className="">
-          <div className="">
-            <label className="">Title</label>
+        <div>
+          <div>
+            <label>Title</label>
           </div>
-          <div className="">
+          <div>
             <input onChange={(event) => { this.setState({ title: event.target.value }); } }
                 name="title"
-                className=""
+
                 type="text"
                 value={this.state.title}
                 />
           </div>
         </div>
-        <div className="">
-          <div className="">
-            <label className="">Body</label>
+        <div>
+          <div>
+            <label>Body</label>
           </div>
-          <div className="">
+          <div>
             <textarea onChange={(event) => { this.setState({ body: event.target.value }); } }
                 name="body"
-                className=""
+
                 value={this.state.body}
                 rows="10" cols="50"
                 />
           </div>
         </div>
-        <div className="">
-          <div className="">
-            <label className="">Author</label>
+        <div>
+          <div>
+            <label>Author</label>
           </div>
-          <div className="">
+          <div>
             <input onChange={(event) => { this.setState({ author: event.target.value }); } }
                 name="author"
-                className=""
+
                 type="text"
                 value={this.state.author}
                 />
@@ -117,7 +117,7 @@ class PostCreate extends Component{
            <div className="itemCreateTenant">
             <div className="selectCreateTenant state">
                 <select onChange={this.handleStateChange} name="state" id="">
-                    <option selected disabled> -SELECT A CATEGORY- </option>
+                    <option value='-' disabled> -SELECT A CATEGORY- </option>
                     {categoriesList.categories.map(category => (
                       <option key={category.name} value={category.name}> {category.name} </option>
                     ))}
@@ -126,7 +126,7 @@ class PostCreate extends Component{
             <label className="errorCreateTenant">{this.state.stateHasError? 'Preenchimento obrigatório' : ''}</label>
           </div>
         </div>
-        <div className="">
+        <div>
           <button className="addButton"  onClick={() => this.setAndSavePost() }>Save</button>
         </div>
       </div>

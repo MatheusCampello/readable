@@ -16,10 +16,6 @@ export function scorePostSuccess(post) {
   return { type: types.SCORE_POST_SUCCESS, post };
 }
 
-export function scorePostSuccess(post) {
-  return { type: types.SCORE_POST_SUCCESS, post };
-}
-
 export function deletePostSuccess(post) {
   return { type: types.DELETE_POST_SUCCESS, post};
 }
@@ -112,4 +108,8 @@ export function deletePost(post) {
         console.log(error);
       }),
   );
+}
+
+export function orderPost(order) {
+  return { type: types.ORDER_POST_SUCCESS, order};
 }

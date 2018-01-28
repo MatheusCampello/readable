@@ -21,6 +21,7 @@ class App extends Component {
 
     this.scorePost = this.scorePost.bind(this);
     this.deletePost = this.deletePost.bind(this);
+    this.order = this.order.bind(this);
   }
 
   componentWillMount() {
@@ -41,6 +42,10 @@ class App extends Component {
     this.props.deletePost(postId);
   }
 
+  order(order) {
+    this.props.orderPost(order);
+  }
+
   render() {
     const categoriesList = this.props.categories;
     // console.log(this.props.posts)
@@ -48,12 +53,12 @@ class App extends Component {
       <div className="App">
         {categoriesList.categories &&
           <Route exact path="/" render={() => (
-            <CategoryList categoriesList={categoriesList} posts={this.props.posts} scorePost={this.scorePost} deletePost={this.deletePost}/>
+            <CategoryList categoriesList={categoriesList} posts={this.props.posts} scorePost={this.scorePost} deletePost={this.deletePost} order={this.order}/>
           )}/>
         }
         {categoriesList.categories.map(category => (
           <Route exact path={`/${category.name}`} key={category.name} render={() => (
-            <CategoryPosts category={category.name} scorePost={this.scorePost} deletePost={this.deletePost}/>
+            <CategoryPosts category={category.name} scorePost={this.scorePost} deletePost={this.deletePost} order={this.order}/>
           )}/>
         ))}
         {categoriesList.categories.map(category => (
@@ -89,6 +94,7 @@ function mapDispatchToProps(dispatch) {
     loadCategoryPosts: (category) => dispatch(postsActions.loadCategoryPosts(category)),
     scorePost: (postId, option) => dispatch(postsActions.scorePost(postId, option)),
     deletePost: (postId) => dispatch(postsActions.deletePost(postId)),
+    orderPost: (order) => dispatch(postsActions.orderPost(order)),
   };
 }
 

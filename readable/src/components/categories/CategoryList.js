@@ -5,10 +5,16 @@ import PostTopic from './../posts/PostTopic';
 
 import './categoryList.css';
 
-const CategoryList = ({ categoriesList, posts, scorePost, deletePost }) => (
+const CategoryList = ({
+   categoriesList,
+   posts,
+   scorePost,
+   deletePost,
+   order,
+}) => (
   <div className="list-books">
     <div className="category-select">
-      Select a Category
+      <h1> Select a Category </h1>
       <ul>
         {categoriesList && categoriesList.categories.map(category => (
             <li key={category.name}>
@@ -18,6 +24,10 @@ const CategoryList = ({ categoriesList, posts, scorePost, deletePost }) => (
       </ul>
     </div>
     <h4> <Link to={{ pathname:'/post/create', state: { categoriesList: categoriesList}}}> Post </Link>  </h4>
+    <div className="categoryButton" onClick={() => order('score +') }>By Score Asc.</div>
+    <div className="categoryButton" onClick={() => order('score -') }>By Score Desc.</div>
+    <div className="categoryButton" onClick={() => order('time +') }>By Timestamp Asc.</div>
+    <div className="categoryButton" onClick={() => order('time -') }>By Timestamp Desc.</div>
     {posts && posts.filter(post => post.deleted === false).map(post => (
       <div key={post.id} style={{'width': '100%', 'float': 'left'}}>
         <PostTopic post={post} category={post.category} />
@@ -30,6 +40,7 @@ const CategoryList = ({ categoriesList, posts, scorePost, deletePost }) => (
 );
 
 CategoryList.propTypes = {
+  order: PropTypes.func.isRequired,
   deletePost: PropTypes.func.isRequired,
   scorePost: PropTypes.func.isRequired,
   categoriesList: PropTypes.shape({

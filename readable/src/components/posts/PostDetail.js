@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import moment from 'moment'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
@@ -67,6 +68,7 @@ export class PostDetail extends React.Component {
             <div>
               {comment.body}
             </div>
+            <div>{ moment(comment.timestamp).format("DD-MM-YYYY h:mm:ss") }</div>
             <div>
               Vote Score: {comment.voteScore} - Author: {comment.author}
             </div>

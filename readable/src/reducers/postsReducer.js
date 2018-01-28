@@ -16,6 +16,24 @@ export default function postsReducer(state = initialState.posts, action) {
       return state.map(post => post.id ===action.post.id ?
           { ...post, deleted: action.post.deleted } :
         post);
+    case types.ORDER_POST_SUCCESS:
+      if (action.order.includes('score')) {
+        if (action.order.includes('+')) {
+          const scoreAscPosts = state.sort((postA, postB) => postA.voteScore < postB.voteScore)
+          return [...scoreAscPosts];
+        } else {
+          const scoreDescPosts = state.sort((postA, postB) => postA.voteScore > postB.voteScore)
+          return [...scoreDescPosts];
+        }
+      } else {
+        if (action.order.includes('-')) {
+          const timeAscPosts = state.sort((postA, postB) => postA.timestamp < postB.timestamp)
+          return [...timeAscPosts];
+        } else {
+          const timeDescPosts = state.sort((postA, postB) => postA.timestamp > postB.timestamp)
+          return [...timeDescPosts];
+        }
+      }
     default:
       return state
   }
