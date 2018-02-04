@@ -15,11 +15,13 @@ class PostCreate extends Component{
       author: "",
       category: "",
       categoriesList: [],
+      stateHasError: false,
     }
     this.handleStateChange = this.handleStateChange.bind(this);
     this.savePost = this.savePost.bind(this);
     this.setAndSavePost = this.setAndSavePost.bind(this);
     this.createUUiD = this.createUUiD.bind(this);
+    this.validatePost = this.validatePost.bind(this);
   }
 
   componentWillMount() {
@@ -46,6 +48,13 @@ class PostCreate extends Component{
     });
   }
 
+  validatePost(post) {
+    if (!post.title || !post.body || !post.author) {
+      return false
+    }
+    return true;
+  }
+
   savePost(post) {
     this.props.createPost(post).then(() => {
       this.props.history.push(`/${this.state.category}`)
@@ -62,9 +71,16 @@ class PostCreate extends Component{
       title,
       body,
       author,
-      category
+      category: !category ? 'react' : category
     });
-    this.savePost(post);
+
+    if (this.validatePost(post)) {
+      this.savePost(post);
+    } else {
+      this.setState({
+        stateHasError: true
+      });
+    }
   }
 
   render() {
@@ -82,6 +98,7 @@ class PostCreate extends Component{
                 type="text"
                 value={this.state.title}
                 />
+            <label className="errorCreatePost">{this.state.stateHasError? 'Cannot be blank' : ''}</label>
           </div>
         </div>
         <div>
@@ -95,6 +112,7 @@ class PostCreate extends Component{
                 value={this.state.body}
                 rows="10" cols="50"
                 />
+            <label className="errorCreatePost">{this.state.stateHasError? 'Cannot be blank' : ''}</label>
           </div>
         </div>
         <div>
@@ -108,6 +126,7 @@ class PostCreate extends Component{
                 type="text"
                 value={this.state.author}
                 />
+            <label className="errorCreatePost">{this.state.stateHasError? 'Cannot be blank' : ''}</label>
           </div>
         </div>
         <div className="splitCreateTenant">
@@ -123,7 +142,6 @@ class PostCreate extends Component{
                     ))}
                 </select>
               </div>
-            <label className="errorCreateTenant">{this.state.stateHasError? 'Preenchimento obrigatório' : ''}</label>
           </div>
         </div>
         <div>

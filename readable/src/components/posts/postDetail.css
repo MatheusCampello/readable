@@ -19,7 +19,7 @@
   position: relative;
   width: 100%;
   right: 60%;
-  top: 135px;
+  top: 150px;
 }
 
 .button {
@@ -36,4 +36,8 @@
   color: blue;
   float: left;
   margin-right: 10px;
+}
+
+.errorCreatePost {
+  color: red;
 }

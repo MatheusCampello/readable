@@ -34,6 +34,10 @@ export default function postsReducer(state = initialState.posts, action) {
           return [...timeDescPosts];
         }
       }
+    case types.EDIT_POST_SUCCESS:
+      return state.map(post => post.id === action.post.id ?
+          action.post :
+        post);
     default:
       return state
   }

@@ -7,6 +7,7 @@ import PostDetail from './posts/PostDetail';
 import PostCreate from './posts/PostCreate';
 import CommentCreate from './comments/CommentCreate';
 import CommentEdit from './comments/CommentEdit';
+import PostEdit from './posts/PostEdit'
 import './App.css';
 
 import * as categoriesActions from './../actions/categoriesActions';
@@ -62,12 +63,15 @@ class App extends Component {
           )}/>
         ))}
         {categoriesList.categories.map(category => (
-          <Route exact path={`/${category.name}/post/:id`} key={category.name} render={() => (
+          <Route exact path={`/${category.name}/:id`} key={category.name} render={() => (
             <PostDetail scorePost={this.scorePost}/>
           )}/>
         ))}
       <Route exact path={'/post/create'} render={() => (
         <PostCreate categoriesList={categoriesList}/>
+      )}/>
+      <Route exact path={'/post/edit/:id'} render={() => (
+        <PostEdit categoriesList={categoriesList}/>
       )}/>
       <Route exact path={'/post/:id/comment/create'} render={() => (
         <CommentCreate />

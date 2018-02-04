@@ -21,7 +21,6 @@ export class PostDetail extends React.Component {
   }
 
   componentWillMount() {
-    console.log("WillMount",this.props.posts)
     axios({
       method: 'get',
       url: `http://localhost:3001/posts/${this.props.match.params.id}`,
@@ -34,7 +33,6 @@ export class PostDetail extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("WillReceive", nextProps.posts)
     this.setState({
       post: nextProps.posts.find(post => post.id === this.props.match.params.id)
     })
@@ -54,32 +52,37 @@ export class PostDetail extends React.Component {
 
     return (
       <div>
-        <h4> <Link to={{ pathname: `/${post.category}`, }}> Readable: {post.category} </Link>  </h4>
-        <PostTopic post={post} category={post.category} postDetails={true}/>
-        <div className="categoryButton" onClick={() => this.props.scorePost(post.id, 'upVote') }>UpVote</div>
-        <div className="categoryButton" onClick={() => this.props.scorePost(post.id, 'downVote') }>DownVote</div>
+        {post ?
+          <div>
+            <h4> <Link to={{ pathname: `/${post.category}`, }}> Readable: {post.category} </Link>  </h4>
+            <PostTopic post={post} category={post.category} postDetails={true}/>
+            <div className="categoryButton" onClick={() => this.props.scorePost(post.id, 'upVote') }>UpVote</div>
+            <div className="categoryButton" onClick={() => this.props.scorePost(post.id, 'downVote') }>DownVote</div>
 
-        <h2 className='commentTitle'> Comments </h2>
-        <Link className='commentLink' to={{ pathname: `/post/${post.id}/comment/create`, }}> Comment </Link>
-
-
-        {this.props.comments.length > 0 ? this.props.comments.filter(comment => comment.deleted === false).map((comment) => (
-          <div key={comment.id} style={{border: '2px solid black', width: '50%'}}className='comment'>
-            <div>
-              {comment.body}
-            </div>
-            <div>{ moment(comment.timestamp).format("DD-MM-YYYY h:mm:ss") }</div>
-            <div>
-              Vote Score: {comment.voteScore} - Author: {comment.author}
-            </div>
-            <div className="button" onClick={() => this.scoreComment(comment.id, 'upVote') }>UpVote</div>
-            <div className="button" onClick={() => this.scoreComment(comment.id, 'downVote') }>DownVote</div>
-            <div className="button" onClick={() => this.deleteComment(comment.id) }>Delete</div>
-            <Link to={{ pathname: `/post/${post.id}/comment/${comment.id}/edit`, }}> Edit </Link>
+            <h2 className='commentTitle'> Comments </h2>
+            <Link className='commentLink' to={{ pathname: `/post/${post.id}/comment/create`, }}> Comment </Link>
+            {this.props.comments.length > 0 ? this.props.comments.filter(comment => comment.deleted === false).map((comment) => (
+              <div key={comment.id} style={{border: '2px solid black', width: '50%'}}className='comment'>
+                <div>
+                  {comment.body}
+                </div>
+                <div>{ moment(comment.timestamp).format("DD-MM-YYYY h:mm:ss") }</div>
+                <div>
+                  Vote Score: {comment.voteScore} - Author: {comment.author}
+                </div>
+                <div className="button" onClick={() => this.scoreComment(comment.id, 'upVote') }>UpVote</div>
+                <div className="button" onClick={() => this.scoreComment(comment.id, 'downVote') }>DownVote</div>
+                <div className="button" onClick={() => this.deleteComment(comment.id) }>Delete</div>
+                <Link to={{ pathname: `/post/${post.id}/comment/${comment.id}/edit`, }}> Edit </Link>
+              </div>
+              )) : (
+              <div className='comment'> No comments yet </div>
+            )}
           </div>
-        )) : (
-          <div className='comment'> No comments yet </div>
-        )}
+           :
+          <div>
+            This post doesn't exist go <Link to={{ pathname: '/', }}> back to root </Link>
+          </div> }
       </div>
     );
   }

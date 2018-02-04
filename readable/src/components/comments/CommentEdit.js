@@ -25,7 +25,6 @@ class CommentEdit extends Component{
     this.setState({
       post
     });
-    console.log(this.props.posts)
     if (this.props.comments.length > 0) {
       const comment = this.props.comments.find(comment => comment.id === this.props.match.params.cid)
       this.setState({

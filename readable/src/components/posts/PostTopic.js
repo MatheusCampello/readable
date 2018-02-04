@@ -13,16 +13,20 @@ const PostTopic = ({ post, category, postDetails }) => (
       <div> {moment(post.timestamp).format("DD-MM-YYYY h:mm:ss") } </div>
     </div>
     {postDetails === false ? (
-      <Link to={`/${category}/post/${post.id}/`}>
-        Comments: {post.commentCount}  - Vote Score: {post.voteScore} - Author: {post.author}
-      </Link>
+      <div>
+        <Link to={`/${category}/${post.id}/`}>
+          Comments: {post.commentCount}  - Vote Score: {post.voteScore} - Author: {post.author}
+        </Link>
+      </div>
     ) : (
       <div>
         <div> {post.body} </div>
-        <div> {moment(post.timestamp).format("DD-MM-YYYY h:mm:ss") } </div>
         <div> Comments: {post.commentCount}  - Vote Score: {post.voteScore} - Author: {post.author} </div>
       </div>
     )}
+  <Link to={`/post/edit/${post.id}`}>
+    Edit
+  </Link>
   </div>
 );
 

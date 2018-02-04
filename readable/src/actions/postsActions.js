@@ -20,6 +20,10 @@ export function deletePostSuccess(post) {
   return { type: types.DELETE_POST_SUCCESS, post};
 }
 
+export function editPostSuccess(post) {
+  return { type: types.EDIT_POST_SUCCESS, post};
+}
+
 
 export function loadPosts() {
   return (dispatch, getState, { axios }) => Promise.resolve(
@@ -112,4 +116,22 @@ export function deletePost(post) {
 
 export function orderPost(order) {
   return { type: types.ORDER_POST_SUCCESS, order};
+}
+
+export function editPost(post, data) {
+  return (dispatch, getState, { axios }) => new Promise((resolve, reject) =>
+    axios({
+      method: 'put',
+      url: `http://localhost:3001/posts/${post}`,
+      data,
+      headers: { Authorization: 'whatever-you-want' },
+    })
+      .then(res => {
+        console.log(res)
+        resolve(dispatch(editPostSuccess(res.data)))
+      })
+      .catch((error) => {
+        console.log(error);
+      }),
+  );
 }
