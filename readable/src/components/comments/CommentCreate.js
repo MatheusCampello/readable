@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import * as commentsActions from './../../actions/commentsActions';
+import * as postsActions from './../../actions/postsActions';
 
 class CommentCreate extends Component{
   constructor(props) {
@@ -44,8 +46,9 @@ class CommentCreate extends Component{
   }
 
   savePost(comment) {
-    this.props.createComment(comment).then(() => {
-      this.props.history.push(`/${this.state.post.category}/post/${this.state.post.id}/`)
+    this.props.createComment(comment).then((res) => {
+      this.props.addPostComment(res.comment);
+      this.props.history.push(`/${this.state.post.category}/${this.state.post.id}/`);
     });
   }
 
@@ -100,6 +103,10 @@ class CommentCreate extends Component{
     );
   }
 }
+
+CommentCreate.propTypes = {
+  addPostComment: PropTypes.func.isRequired
+};
 
 function mapStateToProps(state, ownProps) {
   return {

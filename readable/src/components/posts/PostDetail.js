@@ -44,18 +44,26 @@ export class PostDetail extends React.Component {
   }
 
   deleteComment(comment) {
-    this.props.deleteComment(comment);
+    this.props.deleteComment(comment)
+      .then((res) => {
+        this.props.postDeleteComment(res.comment);
+      });
+  }
+
+  deletePost(postId) {
+    const { post } = this.state;
+    this.props.deletePost(postId);
+    this.props.history.push(`/${post.category}`)
   }
 
   render() {
     const { post } = this.state;
-
     return (
       <div>
         {post ?
           <div>
             <h4> <Link to={{ pathname: `/${post.category}`, }}> Readable: {post.category} </Link>  </h4>
-            <PostTopic post={post} category={post.category} postDetails={true}/>
+            <PostTopic post={post} category={post.category} postDetails={true} deletePost={() => this.deletePost(post.id)}/>
             <div className="categoryButton" onClick={() => this.props.scorePost(post.id, 'upVote') }>UpVote</div>
             <div className="categoryButton" onClick={() => this.props.scorePost(post.id, 'downVote') }>DownVote</div>
 
@@ -105,6 +113,7 @@ function mapDispatchToProps(dispatch) {
     loadComments: (post) => dispatch(commentsActions.loadComments(post)),
     scoreComment: (comment, data) => dispatch(commentsActions.scoreComment(comment, data)),
     deleteComment: (comment) => dispatch(commentsActions.deleteComment(comment)),
+    postDeleteComment: (comment) => dispatch(postsActions.postDeleteComment(comment)),
   };
 }
 

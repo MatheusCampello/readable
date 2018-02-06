@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import './postTopic.css';
 
-const PostTopic = ({ post, category, postDetails }) => (
+const PostTopic = ({ post, category, postDetails, deletePost }) => (
   <div key={post.id} className='border'>
     <div>
       {post.title} ---- {post.category}
@@ -24,9 +24,10 @@ const PostTopic = ({ post, category, postDetails }) => (
         <div> Comments: {post.commentCount}  - Vote Score: {post.voteScore} - Author: {post.author} </div>
       </div>
     )}
-  <Link to={`/post/edit/${post.id}`}>
-    Edit
-  </Link>
+    <Link to={`/post/edit/${post.id}`}>
+      Edit
+    </Link>
+    <div className="deleteBtn" onClick={() => deletePost(post.id) }>Delete</div>
   </div>
 );
 
@@ -36,6 +37,7 @@ PostTopic.defaultProps = {
 }
 
 PostTopic.propTypes = {
+  deletePost: PropTypes.func.isRequired,
   postDetails: PropTypes.bool,
   category: PropTypes.string,
   post: PropTypes.object,

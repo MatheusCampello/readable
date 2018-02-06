@@ -66,7 +66,7 @@ class CommentEdit extends Component{
 
   editComment(commentId, data) {
     this.props.editComment(commentId, data).then(() => {
-      this.props.history.push(`/${this.state.post.category}/post/${this.state.post.id}/`)
+      this.props.history.push(`/${this.state.post.category}/${this.state.post.id}/`)
     });
   }
 

@@ -12,3 +12,11 @@
    float: right;
    margin-right: 10px;
 }
+
+.deleteBtn {
+  cursor: pointer;
+  width: fit-content;
+  color: blue;
+  float: right;
+  margin-right: 10px;
+}

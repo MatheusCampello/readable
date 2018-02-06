@@ -38,6 +38,18 @@ export default function postsReducer(state = initialState.posts, action) {
       return state.map(post => post.id === action.post.id ?
           action.post :
         post);
+    case types.DELETE_POST_COMMENT_SUCCESS:
+      return state.map(post => post.id === action.comment.parentId ?
+        { ...post, commentCount: post.commentCount - 1  } :
+        post
+      );
+    case types.ADD_POST_COMMENT_SUCCESS:
+      const postAux = state.map(post => post.id === action.comment.parentId ?
+        { ...post, commentCount: post.commentCount + 1  } :
+        post
+      );
+      console.log(postAux)
+      return [...postAux]
     default:
       return state
   }

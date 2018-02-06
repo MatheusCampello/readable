@@ -118,6 +118,15 @@ export function orderPost(order) {
   return { type: types.ORDER_POST_SUCCESS, order};
 }
 
+export function postDeleteComment(comment) {
+  return { type: types.DELETE_POST_COMMENT_SUCCESS, comment}
+}
+
+export function addPostComment(comment) {
+  console.log(comment)
+  return { type: types.ADD_POST_COMMENT_SUCCESS, comment }
+}
+
 export function editPost(post, data) {
   return (dispatch, getState, { axios }) => new Promise((resolve, reject) =>
     axios({

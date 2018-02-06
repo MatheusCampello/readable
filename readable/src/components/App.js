@@ -23,6 +23,7 @@ class App extends Component {
     this.scorePost = this.scorePost.bind(this);
     this.deletePost = this.deletePost.bind(this);
     this.order = this.order.bind(this);
+    this.addPostComment = this.addPostComment.bind(this);
   }
 
   componentWillMount() {
@@ -47,6 +48,10 @@ class App extends Component {
     this.props.orderPost(order);
   }
 
+  addPostComment(comment) {
+    this.props.addPostComment(comment);
+  }
+
   render() {
     const categoriesList = this.props.categories;
     // console.log(this.props.posts)
@@ -64,7 +69,7 @@ class App extends Component {
         ))}
         {categoriesList.categories.map(category => (
           <Route exact path={`/${category.name}/:id`} key={category.name} render={() => (
-            <PostDetail scorePost={this.scorePost}/>
+            <PostDetail scorePost={this.scorePost} deletePost={this.deletePost}/>
           )}/>
         ))}
       <Route exact path={'/post/create'} render={() => (
@@ -74,7 +79,7 @@ class App extends Component {
         <PostEdit categoriesList={categoriesList}/>
       )}/>
       <Route exact path={'/post/:id/comment/create'} render={() => (
-        <CommentCreate />
+        <CommentCreate addPostComment={this.addPostComment}/>
       )}/>
       <Route exact path={'/post/:id/comment/:cid/edit'} render={() => (
         <CommentEdit />
@@ -99,6 +104,7 @@ function mapDispatchToProps(dispatch) {
     scorePost: (postId, option) => dispatch(postsActions.scorePost(postId, option)),
     deletePost: (postId) => dispatch(postsActions.deletePost(postId)),
     orderPost: (order) => dispatch(postsActions.orderPost(order)),
+    addPostComment: (comment) => dispatch(postsActions.addPostComment(comment)),
   };
 }
 

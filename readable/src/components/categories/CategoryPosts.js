@@ -24,10 +24,9 @@ export class CategoryPosts extends React.Component {
         <div className="categoryButton" onClick={() => this.props.order('time -') }>By Timestamp Desc.</div>
         {posts.length > 0 && posts.filter(post => post.deleted === false).map(post => (
           <div key={post.id} style={{'width': '100%', 'float': 'left'}}>
-            <PostTopic post={post} category={this.props.category} />
+            <PostTopic post={post} category={this.props.category} deletePost={this.props.deletePost} />
             <div className="categoryButton" onClick={() => this.props.scorePost(post.id, 'upVote') }>UpVote</div>
             <div className="categoryButton" onClick={() => this.props.scorePost(post.id, 'downVote') }>DownVote</div>
-            <div className="categoryButton" onClick={() => this.props.deletePost(post.id) }>Delete</div>
           </div>
         ))}
       </div>
